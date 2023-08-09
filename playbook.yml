@@ -2,3 +2,11 @@
 - name: "Ansible Config"
   hosts: localhost
   gather_facts: true
+
+  tasks:
+    - name: Update OS
+      apt:
+        upgrade: dist
+        autoremove: true
+        autoclean: true
+        update_cache: true
