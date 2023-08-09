@@ -17,6 +17,7 @@
           - gh
           - jq
           - zsh
+          - unzip
     - name: Change default shell to zsh for the user 'zeulewan'
       user:
         name: zeulewan
