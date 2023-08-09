@@ -17,10 +17,6 @@
           - gh
           - jq
           - zsh
-          - snap
-    - name: Black Face
-      snap:
-        name: lsd
     - name: Change default shell to zsh for the user 'zeulewan'
       user:
         name: zeulewan
