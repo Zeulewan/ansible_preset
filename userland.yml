@@ -21,7 +21,7 @@
               - zsh-autosuggestions
 #              - zsh-dircolors-solarized
               - zsh-navigation-tools
-              - zsh-exa
+              - exa-zsh
   tasks:
     - name: GIT config
       git_config:
@@ -52,11 +52,10 @@
         value: "green"
 
 
-
-    - name: Install exa
+    - name: Install zsh exa
       ansible.builtin.git:
-        repo: https://github.com/ptavares/zsh-exa.git
-        dest: "{{ HOME }}/.oh-my-zsh/plugins/zsh-exa"
+        repo: https://github.com/MohamedElashri/exa-zsh.git
+        dest: "{{ HOME }}/.oh-my-zsh/plugins/exa-zsh"
         force: yes
       register: zshexa
       changed_when: ( zshexa.remote_url_changed is not defined or zshexa.remote_url_changed ) 
