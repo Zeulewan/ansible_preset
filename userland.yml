@@ -21,7 +21,7 @@
               - zsh-autosuggestions
 #              - zsh-dircolors-solarized
               - zsh-navigation-tools
-              - exa-zsh
+              - zsh-exa
   tasks:
     - name: GIT config
       git_config:
