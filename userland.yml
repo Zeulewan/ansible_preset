@@ -44,11 +44,11 @@
       tags: alias
 
     - name: Configure Ansible
-    ini_file:
-      path: "{{ HOME }}/ansible.cfg"
-      section: "colors"
-      option: "verbose"
-      value: "green"
+      ini_file:
+        path: "{{ HOME }}/ansible.cfg"
+        section: "colors"
+        option: "verbose"
+        value: "green"
 
     - name: Install zsh autosuggestions
       ansible.builtin.git:
