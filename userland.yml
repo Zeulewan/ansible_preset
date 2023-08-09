@@ -51,6 +51,15 @@
         option: "verbose"
         value: "green"
 
+
+
+    - name: Install exa
+      ansible.builtin.git:
+        repo: https://github.com/ptavares/zsh-exa.git
+        dest: "{{ HOME }}/.oh-my-zsh/plugins/zsh-exa"
+        force: yes
+      register: autosuggestions
+
     - name: Install zsh autosuggestions
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-autosuggestions.git
@@ -129,6 +138,4 @@
         path: "{{ HOME }}/GIT"
         recurse: true
         state: directory
-
-
-
+        
