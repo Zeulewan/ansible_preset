@@ -129,8 +129,5 @@
         recurse: true
         state: directory
 
-    - name: Change default shell to zsh for the user 'zeulewan'
-      user:
-        name: zeulewan
-        shell: /usr/bin/zsh
+
 
