@@ -2,3 +2,18 @@
 - name: "Ansible Config"
   hosts: localhost
   gather_facts: true
+
+  tasks:
+    - name: GIT config
+      git_config:
+          name: "{{ item.name }}"
+          scope: global
+          value: "{{ item.value }}"
+      with_items:
+          - {name: "credential.helper", value: "!/usr/bin/gh auth git-credential" }
+          - {name: "user.name",  value: "Zeulewan Mordasiewicz" }
+          - {name: "user.email", value: "zeul@mordasiewicz.com" }
+          - {name: "ui.color",   value: "True" }
+          - {name: "core.editor",   value: "vim" }
+          - {name: "core.excludesfile", value: "{{ HOME }}/.gitignore"}
+          - {name: "init.defaultBranch", value: "main" }
