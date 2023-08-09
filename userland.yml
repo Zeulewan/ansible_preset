@@ -58,8 +58,8 @@
         repo: https://github.com/ptavares/zsh-exa.git
         dest: "{{ HOME }}/.oh-my-zsh/plugins/zsh-exa"
         force: yes
-      register: zsh-exa
-
+      register: zshexa
+      changed_when: ( zshexa.remote_url_changed is not defined or zshexa.remote_url_changed ) 
     - name: Install zsh autosuggestions
       ansible.builtin.git:
         repo: https://github.com/zsh-users/zsh-autosuggestions.git
