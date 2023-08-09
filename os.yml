@@ -18,9 +18,19 @@
           - jq
           - zsh
           - unzip
+          - python3-pip
     - name: Change default shell to zsh for the user 'zeulewan'
       user:
         name: zeulewan
         shell: /usr/bin/zsh
-
+    - name: Allow 'sudo' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+        validate: visudo -cf %s
+    - name: Install shell-gpt
+      pip:
+        name: shell-gpt
         
