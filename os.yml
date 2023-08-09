@@ -16,3 +16,4 @@
           - apt-transport-https
           - gh
           - jq
+          - zsh
