@@ -2,7 +2,24 @@
 - name: "Ansible Config"
   hosts: localhost
   gather_facts: true
-
+  roles:
+    - role: gantsign.oh-my-zsh
+      users:
+        - username: "{{ ansible_user_id }}"
+          oh_my_zsh:
+            theme: agnoster
+            plugins:
+              - colorize
+              - cp
+              - gh
+              - git
+              - history
+              - ubuntu
+              - zsh-syntax-highlighting
+              - zsh-autosuggestions
+              - zsh-dircolors-solarized
+              - zsh-navigation-tools
+              - zsh-vi-mode
   tasks:
     - name: GIT config
       git_config:
