@@ -2,6 +2,8 @@
 - name: "Ansible Config"
   hosts: localhost
   gather_facts: true
+  vars:
+      HOME: "{{ lookup('env', 'HOME') }}"
   roles:
     - role: gantsign.oh-my-zsh
       users:
@@ -19,7 +21,6 @@
               - zsh-autosuggestions
               - zsh-dircolors-solarized
               - zsh-navigation-tools
-              - zsh-vi-mode
   tasks:
     - name: GIT config
       git_config:
@@ -41,3 +42,89 @@
         create: yes
       become: no
       tags: alias
+
+    - name: Configure Ansible
+    ini_file:
+      path: "{{ HOME }}/ansible.cfg"
+      section: "colors"
+      option: "verbose"
+      value: "green"
+
+    - name: Install zsh autosuggestions
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions.git
+        dest: "{{ HOME }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+        force: yes
+      register: autosuggestions
+      changed_when: ( autosuggestions.remote_url_changed is not defined or autosuggestions.remote_url_changed ) 
+    - name: Install zsh zsh-dircolors-solarized
+      ansible.builtin.git:
+        repo: https://github.com/joel-porquet/zsh-dircolors-solarized
+        dest: "{{ HOME }}/.oh-my-zsh/plugins/zsh-dircolors-solarized"
+        force: yes
+      register: zshdircolorssolarized
+      changed_when: ( zshdircolorssolarized.remote_url_changed is not defined or zshdircolorssolarized.remote_url_changed )
+    - name: Install zsh syntax-highlighting
+      ansible.builtin.git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: "{{ HOME }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+        force: yes
+      register: syntaxhighlighting
+      changed_when: ( syntaxhighlighting.remote_url_changed is not defined or syntaxhighlighting.remote_url_changed )
+
+    - name: Ensure .vim/{autoload,bundle} directory exists
+      file:
+        path: "{{ item }}"
+        state: directory
+        recurse: no
+        mode: 0750
+      loop:
+        - "{{ HOME }}/.vim"
+        - "{{ HOME }}/.vim/autoload"
+        - "{{ HOME }}/.vim/bundle"
+    - name: Ensure Pathogen is in place
+      get_url:
+        dest: "{{ HOME }}/.vim/autoload/pathogen.vim"
+        url: https://tpo.pe/pathogen.vim
+    - name: Deploy plugins
+      git:
+        dest: "{{ HOME }}/.vim/bundle/{{ item.name }}"
+        repo: "{{ item.url }}"
+        clone: yes
+        update: yes
+        recursive: no
+      loop:
+      - name: vim-airline
+        url: https://github.com/vim-airline/vim-airline
+      - name: nerdtree
+        url: https://github.com/preservim/nerdtree
+      - name: fzf-vim
+        url: https://github.com/junegunn/fzf.vim
+      - name: vim-gitgutter
+        url: https://github.com/airblade/vim-gitgutter
+      - name: vim-fugitive
+        url: https://github.com/tpope/vim-fugitive
+      - name: vim-floaterm
+        url: https://github.com/voldikss/vim-floaterm
+    - name: Ensure .vim/colors exists
+      file:
+        path: "{{ HOME }}/.vim/colors"
+        recurse: true
+        state: directory
+    - name: Download vim theme
+      get_url:
+        url: https://raw.githubusercontent.com/crusoexia/vim-monokai/master/colors/monokai.vim
+        dest: "{{ HOME }}/.vim/colors/monokai.vim"
+        mode: '0640'
+    - name: Ensure .vimrc config in place
+      copy:
+        src: vimrc
+        dest: "{{ HOME }}/.vimrc"
+        backup: yes
+        mode: 0640
+
+    - name: Ensure GIT directory exists
+      file:
+        path: "{{ HOME }}/GIT"
+        recurse: true
+        state: directory
