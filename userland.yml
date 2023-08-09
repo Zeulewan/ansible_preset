@@ -16,3 +16,11 @@
           - {name: "ui.color",   value: "True" }
           - {name: "core.editor",   value: "vim" }
           - {name: "init.defaultBranch", value: "main" }
+
+    - name: Add alias for python3
+      lineinfile:
+        path: "~/.bashrc"
+        line: "alias py='python3'"
+        create: yes
+      become: no
+      tags: alias
