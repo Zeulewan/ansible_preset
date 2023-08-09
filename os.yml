@@ -19,6 +19,7 @@
           - zsh
           - unzip
           - python3-pip
+          - exa
     - name: Change default shell to zsh for the user 'zeulewan'
       user:
         name: zeulewan
