@@ -38,7 +38,7 @@
 
     - name: Add alias for python3
       lineinfile:
-        path: "~/.bashrc"
+        path: "~/.zshrc"
         line: "alias py='python3'"
         create: yes
       become: no
